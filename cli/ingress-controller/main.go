@@ -102,6 +102,8 @@ func controllerConfigFromCLIConfig(cliConfig cliConfig) controller.Configuration
 		UpdateStatus:           cliConfig.UpdateStatus,
 		UpdateStatusOnShutdown: cliConfig.UpdateStatusOnShutdown,
 		ElectionID:             cliConfig.ElectionID,
+
+		LogFailedConfig: cliConfig.LogFailedConfig,
 	}
 }
 
