@@ -94,15 +94,15 @@ func (n *KongController) OnUpdate(ctx context.Context, state *kongstate.KongStat
 		err = n.onUpdateDBMode(targetContent)
 	}
 	var target []byte
-	if n.cfg.LogFailedConfig {
+	if n.cfg.LogSensitiveConfig {
+		target, _ = json.Marshal(targetContent)
+	} else {
 		state.Sanitize()
 		sanitizedContent := n.toDeckContent(ctx, state)
 		target, _ = json.Marshal(sanitizedContent)
-	} else {
-		target, _ = json.Marshal(targetContent)
 	}
 	if err != nil {
-		if n.cfg.LogFailedConfig {
+		if n.cfg.LogLevel == "debug" {
 			diff, _ := getDiff(target, n.lastConfig)
 			_ = ioutil.WriteFile(n.tmpDir+"/target.json", target, 0600)
 			_ = ioutil.WriteFile(n.tmpDir+"/diff.json", []byte(diff), 0600)
