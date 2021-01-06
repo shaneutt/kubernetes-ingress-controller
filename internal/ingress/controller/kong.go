@@ -88,11 +88,18 @@ func (n *KongController) OnUpdate(ctx context.Context, state *kongstate.KongStat
 			return nil
 		}
 	}
-	target, _ := json.Marshal(targetContent)
 	if n.cfg.InMemory {
 		err = n.onUpdateInMemoryMode(ctx, targetContent, customEntities)
 	} else {
 		err = n.onUpdateDBMode(targetContent)
+	}
+	var target []byte
+	if n.cfg.LogFailedConfig {
+		state.Sanitize()
+		sanitizedContent := n.toDeckContent(ctx, state)
+		target, _ = json.Marshal(sanitizedContent)
+	} else {
+		target, _ = json.Marshal(targetContent)
 	}
 	if err != nil {
 		if n.cfg.LogFailedConfig {
