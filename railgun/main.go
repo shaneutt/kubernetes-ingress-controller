@@ -37,6 +37,7 @@ import (
 	"github.com/kong/kubernetes-ingress-controller/pkg/sendconfig"
 
 	konghqcomv1 "github.com/kong/kubernetes-ingress-controller/railgun/apis/configuration/v1"
+	configurationv1alpha1 "github.com/kong/kubernetes-ingress-controller/railgun/apis/configuration/v1alpha1"
 	"github.com/kong/kubernetes-ingress-controller/railgun/controllers"
 	kongctrl "github.com/kong/kubernetes-ingress-controller/railgun/controllers/configuration"
 	//+kubebuilder:scaffold:imports
@@ -53,6 +54,7 @@ func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
 	utilruntime.Must(konghqcomv1.AddToScheme(scheme))
+	utilruntime.Must(configurationv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
